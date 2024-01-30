@@ -21,6 +21,8 @@ dbConnection();
 // Rutas
 
 app.use('/api/usuarios', require('./router/usuarios'));
+app.use('/api/hospitales', require('./router/hospitales'));
+app.use('/api/medicos', require('./router/medicos'));
 app.use('/api/login', require('./router/auth'));
 
 

@@ -1,13 +1,15 @@
+/*
+    Usuarios
+    Ruta = './api/usuarios'
+*/
+
 const {getUsuarios,creartUsuarios, actualizarUsuario, borrarUsuarios} = require('../controllers/usuarios')
 const {Router} = require('express');
 const {check} = require('express-validator');
 const { validarCampos } = require ('../middleware/validar-campos');
 const { validarJWT } = require ('../middleware/validar-jwt');
 
-
 const router = Router();
-
-// Ruta = ./api/usuarios
 
 router.get( '/',validarJWT ,getUsuarios);
 router.post( '/', [
