@@ -2,11 +2,9 @@ const {response} = require('express');
 const  bcrypt  = require ('bcryptjs');
 const Usuario = require('../models/usuario');
 
-
 const getUsuarios = async (req, res) =>{
 
     // En el caso que quiera filtrar detos de mi consulta
-
     // const usuario = await Usuario.find({},'nombre apellido google email ');
     const usuario = await Usuario.find();
 
@@ -19,40 +17,27 @@ const getUsuarios = async (req, res) =>{
 const creartUsuarios = async(req, res = response) => {
 
     const { email, password } = req.body;
-   
-   
     try {
-
         const existeEmail = await Usuario.findOne({ email });
-
         if ( existeEmail ) {
             return res.status(400).json({
                 ok: false,
                 msg: 'El correo ya está registrado'
             });
         }
-
         const usuario = new Usuario( req.body );    
-    
     
         //Encriptar contraseña
         const salt = bcrypt.genSaltSync();
         usuario.password = bcrypt.hashSync(password, salt);
 
-
         // Guardar usuario
         await usuario.save();
-        
- 
-
-
         res.json({
             ok: true,
             usuario
             
         });
-
-
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -60,8 +45,6 @@ const creartUsuarios = async(req, res = response) => {
             msg: 'Error inesperado... revisar logs'
         });
     }
-
-
 }
 
 const actualizarUsuario = async (req, res = response) => {
@@ -70,12 +53,8 @@ const actualizarUsuario = async (req, res = response) => {
 
     const uid = req.params.id;
     
-
     try {
-        
         const usuarioDB = await Usuario.findById(uid);
-        
-
         if( !usuarioDB ){
             return res.status(404).json({
                 ok: false,
@@ -85,9 +64,7 @@ const actualizarUsuario = async (req, res = response) => {
         // Actualizaciones
 
         const { password, google, email,  ...campos} = req.body;
-
         if( usuarioDB.email !== email ){
-       
             const existeEmail = await Usuario.findOne({email });
             if(existeEmail){
                 return res.status(400).json({
@@ -96,18 +73,12 @@ const actualizarUsuario = async (req, res = response) => {
                 })
             }
         }
-
         campos.email = email;
-
         const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, {new: true});
-
-        
         res.json({
             ok:true,
             usuario: usuarioActualizado
         })
-
-
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -115,14 +86,10 @@ const actualizarUsuario = async (req, res = response) => {
             msg: 'Error inesperado'
         })
     }
-
 }
 
-
 const borrarUsuarios = async(req, res= response)=>{
-
     const uid = req.params.id;
-
     try {
         const usuarioDB = await Usuario.findById(uid);
         if( !usuarioDB ){
@@ -131,9 +98,7 @@ const borrarUsuarios = async(req, res= response)=>{
                 msg: 'no existe un usuario con ese id'
             });
         }
-
         await Usuario.findByIdAndDelete(uid);
-        // console.log(error);
         res.json({
             ok: true,
             msg: 'Usuario eliminado'
@@ -145,9 +110,6 @@ const borrarUsuarios = async(req, res= response)=>{
             msg: 'Hable con el administrador'
         })
     }
-
-
-   
 }
 
 module.exports = {

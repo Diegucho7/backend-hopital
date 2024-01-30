@@ -21,6 +21,7 @@ dbConnection();
 // Rutas
 
 app.use('/api/usuarios', require('./router/usuarios'));
+app.use('/api/login', require('./router/auth'));
 
 
 
