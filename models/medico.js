@@ -5,6 +5,10 @@ const MedicosSchema = Schema({
         type: String,
         required: true
     },
+    apellido:{
+        type: String,
+        required: true
+    },
     img:{
         type: String
     },

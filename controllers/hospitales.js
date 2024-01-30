@@ -5,10 +5,12 @@ const {generarJwt} = require('../helpers/jwt')
 const Hospital = require('../models/hospital');
 
 
-const getHospitales = (req, res) =>{
+const getHospitales =  async (req, res) =>{
+    const hospitales = await Hospital.find()
+                                    .populate('usuario','nombre ')
     res.json({
         ok: true,
-        msg: 'getHospitales'
+        hospitales
     })
 }
 
@@ -45,10 +47,13 @@ const creartHospitales = async(req, res) =>{
 }
 
 
-const actualizarHospitales = (req, res) =>{
+const actualizarHospitales = async(req, res) =>{
+
+    
+
     res.json({
         ok: true,
-        msg: 'actualizarHospitales'
+        msg: 'Hable con el administrador'
     })
 }
 
