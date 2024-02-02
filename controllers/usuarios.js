@@ -15,7 +15,7 @@ const getUsuarios = async (req, res) =>{
         .skip(desde)
         .limit(5),
 
-        Usuario.countDocuments()
+        Usuario.countDocuments() 
 
     ]);
    
@@ -119,7 +119,7 @@ const borrarUsuarios = async(req, res= response)=>{
             });
         }
         await Usuario.findByIdAndDelete(uid);
-        res.json({
+            res.json({
             ok: true,
             msg: 'Usuario eliminado'
         })
