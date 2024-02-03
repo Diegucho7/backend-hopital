@@ -26,7 +26,7 @@ app.use('/api/medicos', require('./router/medicos'));
 app.use('/api/todo', require('./router/busquedas'));
 app.use('/api/todo/coleccion', require('./router/busquedas'));
 app.use('/api/login', require('./router/auth'));
-app.use('/api/upload', require('./router/upload'));
+app.use('/api/uploads', require('./router/uploads'));
 
 
 
