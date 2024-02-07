@@ -46,19 +46,82 @@ const creartMedicos = async (req, res) =>{
 }
 
 
-const actualizarMedicos = (req, res) =>{
-    res.json({
-        ok: true,
-        msg: 'actualizarMedicos'
-    })
+const actualizarMedicos = async(req, res) =>{
+    const id  = req.params.id;
+    const uid = req.uid;
+
+    try {
+
+        const medico = await Medicos.findById( id );
+        if(!medico){
+            res.status(500).json({
+                ok: false,
+                msg: 'Medico no encontrado'
+                                })
+                     }
+                     
+                     const cambiosMedico = {
+                        ...req.body,
+                        usuario: uid
+                     }
+
+                const medicoActualizado = await Medicos.findByIdAndUpdate( id, cambiosMedico,{new:true});
+
+            // hospital.nombre = req.body.nombre;
+                     
+        
+            res.json({
+            ok: true,
+            Medico: medicoActualizado
+        })
+        
+
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
+    }
 }
 
 
-const borrarMedicos = (req, res) =>{
-    res.json({
-        ok: true,
-        msg: 'borrarMedicos'
-    })
+const borrarMedicos = async(req, res) =>{
+
+    const id  = req.params.id;
+
+    try {
+
+        const medico = await Medicos.findById( id );
+        if(!medico){
+            res.status(500).json({
+                ok: false,
+                msg: 'Hospital no encontrado'
+                                })
+                     }
+                     
+                    
+                await Medicos.findByIdAndDelete (id);
+
+                     
+        
+            res.json({
+            ok: true,
+            msg:'Medico Eliminado'
+        })
+        
+
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
+    }
 }
 
 

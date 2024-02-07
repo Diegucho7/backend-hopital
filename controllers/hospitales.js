@@ -49,20 +49,82 @@ const creartHospitales = async(req, res) =>{
 
 const actualizarHospitales = async(req, res) =>{
 
-    
+    const id  = req.params.id;
+    const uid = req.uid;
 
-    res.json({
-        ok: true,
-        msg: 'Hable con el administrador'
-    })
+    try {
+
+        const hospital = await Hospital.findById( id );
+        if(!hospital){
+            res.status(500).json({
+                ok: false,
+                msg: 'Hospital no encontrado'
+                                })
+                     }
+                     
+                     const cambiosHopital = {
+                        ...req.body,
+                        usuario: uid
+                     }
+
+                const hospitalActualizado = await Hospital.findByIdAndUpdate( id, cambiosHopital,{new:true});
+
+            // hospital.nombre = req.body.nombre;
+                     
+        
+            res.json({
+            ok: true,
+            hospital: hospitalActualizado
+        })
+        
+
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
+    }
+
 }
 
 
-const borrarHospitales = (req, res) =>{
-    res.json({
-        ok: true,
-        msg: 'borrarHospitales'
-    })
+const borrarHospitales = async(req, res) =>{
+    
+    const id  = req.params.id;
+
+    try {
+
+        const hospital = await Hospital.findById( id );
+        if(!hospital){
+            res.status(500).json({
+                ok: false,
+                msg: 'Hospital no encontrado'
+                                })
+                     }
+                     
+                    
+                await Hospital.findByIdAndDelete (id);
+
+                     
+        
+            res.json({
+            ok: true,
+            msg:'Hospital Eliminado'
+        })
+        
+
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
+    }
 }
 
 

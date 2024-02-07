@@ -31,10 +31,15 @@ router.post( '/', [
 ,creartMedicos);
 
 router.put( '/:id',
-[]
+[
+    validarJWT
+]
 ,actualizarMedicos);
 
 router.delete( '/:id',
+[
+validarJWT
+],
 borrarMedicos);
 
 
