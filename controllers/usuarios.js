@@ -7,7 +7,7 @@ const getUsuarios = async (req, res) =>{
 
     const desde = Number(req.query.desde) || 0 ;
     
-    // En el caso que quiera filtrar detos de mi consulta
+    // En el caso que quiera filtrar datos de mi consulta
     // const usuario = await Usuario.find({},'nombre apellido google email ');
     const [usuarios, total] = await Promise.all([
         Usuario
@@ -28,7 +28,7 @@ const getUsuarios = async (req, res) =>{
     })
 
 }
-const creartUsuarios = async(req, res = response) => {
+const crearUsuarios = async(req, res = response) => {
 
     const { email, password } = req.body;
     try {
@@ -93,7 +93,17 @@ const actualizarUsuario = async (req, res = response) => {
                 })
             }
         }
-        campos.email = email;
+        
+        if(!usuarioDB.google){
+            campos.email = email;
+        }else if(usuarioDB.email != email){
+            return res.status(400).json({
+                ok: false,
+                msg: 'Usuarios de Google no pueden cambiar su correo'
+            })
+        }
+
+
         const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, {new: true});
         res.json({
             ok:true,
@@ -112,7 +122,7 @@ const borrarUsuarios = async(req, res= response)=>{
     const uid = req.params.id;
     try {
         const usuarioDB = await Usuario.findById(uid);
-        if( !usuarioDB ){
+        if( !usuarioDB ){               
             return res.status(404).json({
                 ok: false,
                 msg: 'no existe un usuario con ese id'
@@ -134,7 +144,7 @@ const borrarUsuarios = async(req, res= response)=>{
 
 module.exports = {
     getUsuarios,
-    creartUsuarios,
+    crearUsuarios,
     actualizarUsuario,
     borrarUsuarios
 }
