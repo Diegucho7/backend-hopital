@@ -6,12 +6,12 @@ const Medicos = require('../models/medico');
 
 const getMedicos = async (req, res) =>{
 
-    const medico = await Medicos.find()
-                                    .populate('usuario','nombre  ')
+    const medicos = await Medicos.find()
+                                    .populate('usuario','nombre apellido  ')
                                     .populate('hospital','nombre  ')
     res.json({
         ok: true,
-        medico
+        medicos
     })
 
 }
