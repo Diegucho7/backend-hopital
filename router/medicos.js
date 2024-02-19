@@ -43,7 +43,7 @@ validarJWT
 ],
 borrarMedicos);
 
-router.get( '/:id',
+router.get('/:id',
 [
 validarJWT
 ],

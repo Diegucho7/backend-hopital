@@ -132,20 +132,22 @@ const getMedicoById  = async (req, res) =>{
 
     const id = req.params.id;
 
+    
     try {
-        const medicos = await Medicos.findById(id)
+        const medico = await Medicos.findById(id)
                                         .populate('usuario','nombre apellido')
-                                        .populate('hospital ','nombre img');
+                                        .populate('hospital','nombre img');
         res.json({
             ok: true,
-            medicos
+            medico
         })
         
     } catch (error) {
         console.log(error)
         res.status(400).json({
             ok: false,
-            msg: 'Hable con el administrador, médico no encontrado'
+            msg: 'Hable con el administrador, médico no encontrado',
+            error:error
         })
         }
 
