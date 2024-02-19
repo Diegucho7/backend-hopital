@@ -122,14 +122,39 @@ const borrarMedicos = async(req, res) =>{
             msg: 'Hable con el administrador'
         })
     }
+
+
+    
 }
 
 
+const getMedicoById  = async (req, res) =>{
 
+    const id = req.params.id;
+
+    try {
+        const medicos = await Medicos.findById(id)
+                                        .populate('usuario','nombre apellido')
+                                        .populate('hospital ','nombre img');
+        res.json({
+            ok: true,
+            medicos
+        })
+        
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            ok: false,
+            msg: 'Hable con el administrador, médico no encontrado'
+        })
+        }
+
+}
 
 module.exports = {
     getMedicos,
     creartMedicos,
     actualizarMedicos,
-    borrarMedicos
+    borrarMedicos,
+    getMedicoById
 }
