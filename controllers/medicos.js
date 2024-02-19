@@ -32,10 +32,9 @@ const getMedicoById  = async (req, res) =>{
         
     } catch (error) {
         console.log(error)
-        res.status(400).json({
+        res.json({
             ok: false,
             msg: 'Hable con el administrador, médico no encontrado',
-            error:error
         })
         }
 
