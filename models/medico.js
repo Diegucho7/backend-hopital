@@ -25,7 +25,8 @@ const MedicosSchema = Schema({
 },  { collection: 'medicos'});
 
 MedicosSchema.method('toJSON', function() {
-    const { __v, password, ...object } = this.toObject();
+    // const { __v, password, ...object } = this.toObject();
+    const { __v, ...object} = this.toObject();
     return object;
 })
 

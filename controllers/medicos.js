@@ -7,7 +7,7 @@ const Medicos = require('../models/medico');
 const getMedicos = async (req, res) =>{
 
     const medicos = await Medicos.find()
-                                    .populate('usuario','nombre apellido  ')
+                                    .populate('usuario','nombre apellido')
                                     .populate('hospital','nombre  ')
     res.json({
         ok: true,
@@ -16,6 +16,30 @@ const getMedicos = async (req, res) =>{
 
 }
 
+const getMedicoById  = async (req, res) =>{
+
+    const id = req.params.id;
+
+    
+    try {
+        const medico = await Medicos.findById(id)
+                                        .populate('usuario','nombre apellido img')
+                                        .populate('hospital','nombre img');
+        res.json({
+            ok: true,
+            medico
+        })
+        
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            ok: false,
+            msg: 'Hable con el administrador, médico no encontrado',
+            error:error
+        })
+        }
+
+}
 
 const creartMedicos = async (req, res) =>{
     const uid =  req.uid;
@@ -128,30 +152,7 @@ const borrarMedicos = async(req, res) =>{
 }
 
 
-const getMedicoById  = async (req, res) =>{
 
-    const id = req.params.id;
-
-    
-    try {
-        const medico = await Medicos.findById(id)
-                                        .populate('usuario','nombre apellido')
-                                        .populate('hospital','nombre img');
-        res.json({
-            ok: true,
-            medico
-        })
-        
-    } catch (error) {
-        console.log(error)
-        res.status(400).json({
-            ok: false,
-            msg: 'Hable con el administrador, médico no encontrado',
-            error:error
-        })
-        }
-
-}
 
 module.exports = {
     getMedicos,
